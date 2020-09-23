@@ -33,8 +33,6 @@ interface IItem {
 }
 ```
 
-## ISolutionMetadata 
-
 ## ISolution
 
 ```js
@@ -45,6 +43,8 @@ interface ISolution {
 ```
 
 ## ISolutionData
+**Note**: Using the same item type for both the Template and Output content is messy. Not sure if we want the `templates` in the "Deployed" Solution... currently Solutions replaces the content of the templates array w/ `{id: 'ed0', type: 'Web Map'}` which is super messy to model
+
 ```js
 interface ISolutionData {
   templates: ITemplate[];
@@ -56,6 +56,8 @@ interface ISolutionData {
 
 
 ## TemplateType
+**Note**: Not sure if we really need this... we could move the `type` property up one level and it's an IGroupTemplate when `.type === "Group"`. Seems less typescripty, but this seems overkillish for how common Groups are.
+
 ```js
 type TemplateType = "ITEM" || "GROUP";
 ```
