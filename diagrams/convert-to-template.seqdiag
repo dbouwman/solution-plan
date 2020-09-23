@@ -1,0 +1,12 @@
+App -> convertFromItems: items[]
+convertFromItems -> forEachItem:
+forEachItem -> Factory: IItem
+Factory -> forEachItem: Processor Class
+forEachItem -> Type Specific Processor: convertToTemplate
+Note right of Type Specific Processor: Processor makes whatever \n calls are needed to fetch \n data, resources, relationships etc
+Type Specific Processor-> forEachItem: IItemTemplate
+forEachItem -> getDependencyItems: id[]
+getDependencyItems -> forEachItem: ITemplate[]
+Note right of forEachItem: dedupe and \n add to queue \n & recurse
+forEachItem -> convertFromItems: 
+convertFromItems -> App: ITemplate[]
