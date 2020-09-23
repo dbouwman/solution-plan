@@ -5,6 +5,9 @@ The three main processes make up the "core" of the Solution.js system:
 - **Persistence**: store an array of templates in a "Solution" item
 - **Deployment**: create and connect a stack of new items, from an array of templates, optionally creating a Solution Item that has links to all the created items
 
+
+    
+
 # Conversion to Templates
 
 Key changes to this area of the codebase:
@@ -17,6 +20,27 @@ Key changes to this area of the codebase:
 The "Conversion" functions all return an array of `ITemplate` objects. This can then be directly used in the Deployment functions or persisted in a Solution item
 
 ![Conversion to Template Sequence Diagram](./diagrams/convert-to-template.png)
+
+## Unresolved Conversion Issues
+
+#### How to handle groups?
+**Problem**:  
+ - Some items depend on groups.
+ - Some items will just want the group created
+ - Some items will expect the group _content_ to be included as dependencies of the solution
+
+**Currently**:
+During the conversion process, groupId's are returned in the `dependencies` array, leading to complexity all over the place
+
+**Instead**
+Couple options here, none of which seem "complete" yet...
+
+a) Dependencies array is made up of `IDependency` objects like `{id: '3ef', type: 'Web Map'}, {id: 'bc7', type:'Group}`. Keeps a single array, but does not communicate if we need to include the group content...
+
+b) Processor fetchs the group, returns an `IGroupTemplate`, and if it wants the group contents templated, it should fetch all the item ids for the items in the group, and return them in `.dependencies[]`. The `IGroupTemplate`
+
+c) original processor returns `dependencies` array, and a `groups` array filled with objects `{id: '3ef', includeItems: true}`
+
 
 ## Convert Group Content to Templates
 
@@ -78,9 +102,9 @@ export saveAsSolutionTemplate(
   ):Promise<ISolutionModel> {...}
 ```
 
-*Note*: This process must also copy each of the `IResourceInfo`s to a resources of the Solution item itself, updating the `IResourceInfo.url` property as it does so.
+*Note*: This process must also copy each of the `ISolutionResource`s to a resources of the Solution item itself, updating the `ISolutionResource.sourceUrl` property as it does so.
 
-[IItemAdd](https://esri.github.io/arcgis-rest-js/api/types/IItemAdd/): Baseline information to create an item, in this case specific to creating the Solution item
+**Reference** [IItemAdd](https://esri.github.io/arcgis-rest-js/api/types/IItemAdd/): Baseline information to create an item, in this case specific to creating the Solution item. We may change this to a more minimal interface.
 
 # Deployment of a Solution
 This is the process of converting from templates, back into fully operational items.
@@ -94,6 +118,14 @@ Key changes to this area of the codebase:
 
 ![Deployment Sequence Diagram](./diagrams/deploy-from-template.png)
 
+
+## Unresolved Deployment Issues
+
+#### Handling sharing of deployed items to Groups
+- Groups should always be created before any items
+- GroupProcessor could handle the sharing of items to the group in the "second pass" 
+OR
+- ItemProcessors share to group right after item creation. Would require some processing of the template hash to push this information into the `IItemTemplate.groupsToShareWith` property
 
 ## Deploy templates directly
 

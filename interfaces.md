@@ -50,8 +50,10 @@ interface ISolutionData {
   templates: ITemplate[];
   // metadata: object; // This is currently in the Solution items, but does not seem to be used...
   params: object; // parameters needed for the solution - aka indicators
+  output?: ITemplateOutput[] // pointers to created items/groups, with refs back to templates
 }
 ```
+
 
 ## TemplateType
 ```js
@@ -75,6 +77,7 @@ Details for groups that need to be created
 ```js
 interface IGroupTemplate extends ITemplate {
   group: object; // group properties
+  itemsToShare: string[]; // id of the items to be shared to this group when they are created
 }
 ```
 
@@ -97,37 +100,40 @@ interface IItemTemplate extends ITemplate {
 When 'in-memory' the sourceUrl's point to the original resource location. When in a Solution Template item, the sourceUrl will point to resources of the Solution Template item.
 
 ```js
-{
-  fileName: string; // url where this resource can be fetched from
-  type: ResourceType; // filename to store on destination item
+interface ISolutionResource {
+  fileName: string; // file name of the resource itself
+  type: ResourceType; // resoruce type information
   path: string; // folder path used on destination item
   sourceUrl: string; // url where this can be fetched from
 }
 ```
 
 ### ResourceType
+**TODO**: Check with Mike T re: when `fakezip` is used, and how we would handle that for the in-memory scenario
+
 ```js
 type SolutionResourceType = "thumbnail" | "metadata" | "resource" | "data" | "fakezip"
 ```
 
 
-## ISolutionData
+## IDependency
 
 ```js
-{
-  templates: IItemTemplate[],
-  metadata: object; 
+interface IDependency {
+  sourceId: string;
+  type: string;
+  params: object; // hash of type specific properties
 }
 ```
-
 
 ## ITemplateOutput
 Information about the deployed entity (item or group) that is stored in the Solution item
 ```js
-{
-  id: string; // id of the deployed item
-  type: string; // type of the deployed item
-  url?: string; // url of the deployed item, if appropriate
+interface ITemplateOutput {
+  sourceId: string; // id of the original item but more importantly the id of the template this was created from
+  id: string; // id of the deployed item/group
+  type: string; // 
+  url?: string; // url of the deployed item/group, if appropriate
   properties?: object; // hash containing details of the created entity. Will be stripped before storing in the Solution
 }
 ```

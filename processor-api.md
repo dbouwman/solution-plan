@@ -18,13 +18,13 @@ For groups, the processor can indicate if the group should simply be created, or
 ## Resource Copying
 This will be used when persisting an IItemTemplate into a Solution item. This allows for type specific logic/naming etc to be applied when copying resources from their source item, to the solution item
 
-`public static copyResourcesToSolution(template: IItemTemplate, authentication: IAuthenticationManager):Promise<IItemTemplate>`
+`public static copyResourcesToSolution(template: ITemplate, authentication: IAuthenticationManager):Promise<IItemTemplate>`
 
 Returns an updated IItemTemplate, in which the resource urls have been udpated to point to the Solution vs the original item
 
 ## Deploy from Template
 
-`public static createFromTemplate(IItemTemplate, authentication: IAuthenticationManager):Promise<ISolutionItem>`
+`public static createFromTemplate(template: ITemplate, authentication: IAuthenticationManager):Promise<ISolutionItem>`
 
 TODO: Decide what the return from this is
 

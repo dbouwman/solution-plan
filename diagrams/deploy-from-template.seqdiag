@@ -8,7 +8,7 @@ deploySolution -> templates.map:
 templates.map -> Factory: ITemplate
 Factory -> templates.map: Processor Class
 templates.map -> Type Specific Processor: createFromTemplate
-Note right of Type Specific Processor: Processor makes whatever \n calls are needed to create \n new entity, copy resources, \n create relationships etc
+Note over Type Specific Processor: Processor makes whatever \n calls are needed to create \n new entity, copy resources, \n create relationships etc
 Type Specific Processor-> templates.map: ITemplateOutput
 templates.map -> deploySolution: ISolutionModel
 deploySolution -> App: ISolutionModel
