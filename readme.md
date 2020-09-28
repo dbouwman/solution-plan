@@ -4,6 +4,21 @@ The Solution.js project has been successful to date, but with that success have 
 
 In you are new to Solutions, take a moment to review the [terminology](./terminology.md) used.
 
+## Core Features
+
+### Convert Item to Template
+
+The Core api orchestrates one or more type specific Processors, which communicate with the Portal API to construct a set of json templates, which collectively can be re-deployed to re-create the original item and its dependencies.
+
+![Conversion to Template](./diagrams/convert-high-level.png)
+
+
+### Deploy Item from Template
+
+The inverse of converting an item to a template. The Core api orchestrates type specific Processors which create new item instances, based on json templates.
+
+![Deployment from Template](./diagrams/deploy-high-level.png)
+
 ## New Features
 
 ### Cloning Items with Dependencies
