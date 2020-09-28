@@ -21,19 +21,14 @@ The "Conversion" functions all return an array of `ITemplate` objects. This can 
 
 ![Conversion to Template Sequence Diagram](./diagrams/convert-to-template.png)
 
-## Unresolved Conversion Issues
+## Group Dependencies
 
-#### How to handle groups?
-**Problem**:  
- - Some items depend on groups.
- - Some items will just want the group created
- - Some items will expect the group _content_ to be included as dependencies of the solution
+**PROBLEM** Some items depend on a group. Sometimes the group must simply exist, in other cases, the content of the group should be included in the template.
 
-**CURRENTLY**:
-During the conversion process, groupId's are returned in the `dependencies` array, leading to complexity / mixed concerns all over the place.
+**CURRENTLY** As an item is templated, the id of any group that it depends on is returned in the `dependencies` array. When that array is processed, the system detects it is an Group, and creates a Template for it. By default the content of the group is *not* templated, rather the templating process itself is curated to ensure the correct items are included in the Solution.
 
 **PROPOSED**
-If an item Processor determines a Group is required, it fetches the Group, returns an `IGroupTemplate`. If it wants the group contents templated, it should fetch all the item ids for the items in the group, and return them in `.dependencies[]` of the `IGroupTemplate`.
+If an item Processor determines a Group is required, it fetches the Group, returns an `IGroupTemplate` as an entry in the `ITemplate[]` array returned from `convertToTemplate(...)`. If it wants the group contents templated, it should fetch all the item ids for the items in the group, and return them in `.dependencies[]` of the `IGroupTemplate`.
 
 
 ## Convert Group Content to Templates
@@ -44,7 +39,7 @@ export convertFromGroup(
     authentication: IAuthenticationManager
   ):Promise<ITemplate[]> {...}
 ```
-Fetches the content of the group and delegates to `convertFromItems`. The group itself will not be included as a template.
+Fetches the content of the group and delegates to `convertFromItems`. *The group itself will not be included as a template.*
 
 This function should get all the `IItem`s shared to the group, and then pass that into `convertFromItems(...)`
 
@@ -79,12 +74,12 @@ export convertFromItems(
 
 This orchestrates the conversion, by delegating to type-specific processors, and returns and array of `ITemplate` objects.
 
-*Note*: At this stage, the `resources` in the `IItemTemplates` will have a `url` property that points to the original location for item resources. 
+*Note*: At this stage, the `resources` in the `ITemplates` will have a `url` property that points to the original location for item resources. 
 
-*Note*: Some type specific processors may return Groups that are required for the item. This is why we use `ITemplate` not `IItemTemplate`, although most templates will be for items.
+*Note*: Some type specific processors may return Groups that are required for the item. This is why we use `ITemplate` not `IItemTemplate`, although most templates will be for items. The core orchestrator code is responsible for storing the `IGroupTemplate`'s in the `data.groupTemplates` array.
 
 
-# Peristence to Solution Template Item
+# Peristence to the Solution Template Item
 This is a new feature introduced into the system. Currently the Conversion process directly creates the Solution Template Item.
 
 Decoupling this step allow for more flexibility in how the library is used, including a platform-wide "Clone Item" feature.
@@ -113,15 +108,12 @@ Key changes to this area of the codebase:
 ![Deployment Sequence Diagram](./diagrams/deploy-from-template.png)
 
 
-## Unresolved Deployment Issues
-
-#### Handling sharing of deployed items to Groups
+## Handling sharing of deployed items to Groups
 - Groups should always be created before any items
-- GroupProcessor could handle the sharing of items to the group in the "second pass" 
-OR
-- ItemProcessors share to group right after item creation. Would require some processing of the template hash to push this information into the `IItemTemplate.groupsToShareWith` property
+- `GroupProcessor` will handle the sharing of items to the group in the `postProcess` hook. 
 
-## Deploy templates directly
+
+## Deploy Templates Directly
 
 Used in "cloning" workflows - allows for direct deployment of an in-memory array of templates. 
 
@@ -150,18 +142,18 @@ export deploySolution(
 
 ## Privilege and License Check
 
-Used internally but also exported so UI's can determine if a given user can deploy a given list of templates
+Used internally but also exported so UI's can determine if a given user can deploy a given list of templates. Simply iterates the templates, gets the type specific processor, and calls `canUserDeployTemplate(...)` on that. It collects all the responses and if any block the deployment, the collection of errors is returned so that the consuming app can display an appropriate message to the user.
 
 ```js
-export canDeploy(
-  currentUser: IUser, // IUser is imported from REST-JS,
+export canUserDeployTemplates(
+  user: IUser, // IUser is imported from REST-JS,
   templates: ITemplate[], 
   authentication: IAuthenticationManager
 ): Promise<IDeployable>
 ```
 
 ## Clone Item
-Handles the entire "cloning" process. 
+Handles the entire "cloning" process. With this process, the Privilege and License Check must be run after the Templates are created, but before the deployment process begins. 
 
 **Note**: This does not create a Solution item with references to the deployed items.
 

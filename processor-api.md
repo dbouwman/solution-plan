@@ -4,30 +4,28 @@ A Processor is a class with static methods that is responsible for type specific
 
 ## Determining if the processor should be used
 
-Separate creation from deployment for typing
-
-
+Separate "conversion" from "deployment" for typing
 
 ```js
-public static canConvertToTemplate(
-    entity: IItem || IGroup
+public static canConvert(
+    item: IItem,
   ): Promise<boolean> {...}
 
-public static canDeployTemplate(
+public static canDeploy(
     template: ITemplate
   ): Promise<boolean> {...}
 ```
 
-Given an IItem, the processor can inspect the type, typekeywords or anything else about the item to determine if it should process it. Currently this is done via a simple lookup based on `item.type`. This new pattern inverts the problem while also allowing the processor itself to inspect the item and determine if it should process it.
+Given an `IItem` or an `ITemplate`, the processor can inspect the type, typekeywords or anything else about the object to determine if it should process it. Currently this is done via a simple lookup based on `item.type`. This new pattern inverts the pattern allowing the processor itself to make the determination, keeping all the type-specific logic in the same place.
 
 
 ## License & Privilege Checking
 
-Used during the deployment process, before starting the actual deployment of template, we run a check if the current user has the licensing / privileges required to deploy the template.
+Used during the deployment process, before starting the actual deployment of template, we run a check if the current user has the licensing / privileges required to deploy the template. 
 
 ```js
 public static canUserDeployTemplate(
-  currentUser: IUser, // IUser is imported from REST-JS,
+  user: IUser, // IUser is imported from REST-JS,
   template: ITemplate,
   authentication: IAuthenticationManager
 ): Promise<IDeployable>
@@ -42,7 +40,9 @@ public static convertToTemplate(
   ):Promise<ITemplate[]> {...}
 ```
 
-Main function that converts an item to an array of templates. The function should fetch whatever resources/meta information required to create a template from which the processor can deploy a new copy. It must also inspect and return an arrays of item dependencies, and group dependencies. If the item being templates requires a Group, an `IGroupTemplate` should also be returned, and it's `dependencies` should contain the Id's of any items in the group which should also be templated.
+Main function that converts an item to an array of templates. The function should fetch whatever resources/meta information required to create a template from which the processor can deploy a new copy. It must also return an array of id's of items the item depends on. 
+
+If the item being templated requires a Group, an `IGroupTemplate` should also be returned, and it's `dependencies` should contain the Id's of any items in the group which should also be templated.
 
 ## Resource Copying
 
@@ -50,12 +50,13 @@ This will be used when persisting an `ITemplate` into a Solution item. This allo
 
 ```js
 public static copyResourcesToSolution(
-    template: ITemplate, 
+    template: ITemplate,
+    targetItemId: string,
     authentication: IAuthenticationManager
   ):Promise<ITemplate> {...}
 ```
 
-Returns an updated `ITemplate`, in which the resource urls have been udpated to point to the Solution vs the original item.
+Returns a new `ITemplate` instance, in which the resource urls have been updated to point to the Solution vs the original item.
 
 ## Deploy from Template
 
@@ -69,17 +70,16 @@ public static deployFromTemplate(
 ```
 
 ## Deployment Post-Processing
-Allows a type specific processor a chance to update other items that were created. Allows for updating of id's, sharing etc
+Allows a type specific processor a chance to update other items that were created. Allows for updating of id's, second-pass interpolation to resolve circular dependencies, sharing etc.
 
 ```js
 public static postProcess(
-  item: IItem, 
-  otherItems:IItem[], 
+  item: ITemplateOutput, 
+  otherItems:ITemplateOutput[], 
   authentication: IAuthenticationManager
-  ): Promise<???> {...}`
+  ): Promise<IPostProcessResult> {...}`
 ```
 
-### TODO: 
-- What should be passed in?
-- Decide if this is basically fire-and-forget (i.e. `void`), or it returns a Promise for a simple `{success: <bool>}`, or it returns a complex object.
+**NOTE** Groups will be handled internally by a `GroupProcessor`, and the `postProcess` phase will be where the sharing calls will be made.
+
 

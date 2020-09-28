@@ -61,9 +61,8 @@ This will require a schema transformation for existing solution items.
 
 ```js
 interface ISolutionData {
-  itemTemplates: IItemTemplate[];
-  groupTemplate: IGroupTemplate[];
-  // metadata: object; // This is currently in the Solution items, but does not seem to be used...
+  itemTemplates: IItemTemplate[]; // items to be deployed
+  groupTemplates: IGroupTemplate[]; // Groups to be deployed
   params: object; // parameters needed for the solution - aka indicators
   output?: ITemplateOutput[] // pointers to created items/groups, with refs back to templates
 }
@@ -82,7 +81,7 @@ Base for IItemTemplate and IGroupTemplate
 
 ```js
 interface ITemplate {
-  id: string; 
+  sourceId: string; // id of the original source
   resources: ISolutionResource[] // array of resources associated with this template
 }
 ```
@@ -105,9 +104,8 @@ interface IItemTemplate extends ITemplate {
   item: object; // basically an IItem w/o it's Id, and with {{variables}} injected
   data: object ;// the /data of the item
   properties: object; // other type-specific information, could be form, layer schema etc
-  dependencies: IDependency[]; // array referencing other items/groups this item depends on
+  dependencies: string[]; // array of item id's that must be deployed before this item
   relatedItems: IRelatedItems[]; // relationship information so we can re-connect during deployment
-  groupsToShareWith: string[]; // array of groupids the resulting item should be shared to
 }
 ```
 
@@ -132,15 +130,7 @@ type SolutionResourceType = "thumbnail" | "metadata" | "resource" | "data" | "fa
 ```
 
 
-## IDependency
-Returned 
-```js
-interface IDependency {
-  sourceId: string;
-  type: string;
-  params: object; // hash of type specific properties
-}
-```
+
 
 ## ITemplateOutput
 
@@ -188,7 +178,7 @@ const result = {
 ## ITranslatableMessage
 
 ```js
-interface IDeployable {
+interface ITranslatableMessage {
   id: string; // unique key that can be used with a i18n system in a consuming application
   message: string; // simple english message describing the issue
 }

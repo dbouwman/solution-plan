@@ -36,7 +36,9 @@ The original use case for Solution.js was focused on working in a browser. Howev
 ## Additional Documents
 - [v2 Core API](./core-api.md)
 - [v2 Processor API](./processor-api.md)
-
+- [Processor Factory](./processor-factory.md)
+- [Item Lineages](./lineage.md)
+- [Workplan](./workplan.md)
 
 ## Other Considerations
 

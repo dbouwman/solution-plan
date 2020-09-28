@@ -20,7 +20,7 @@ The process of converting one or more items or groups, into an array of `ITempla
 The process of converting an array of `ITemplate` objects into a fully operational Solution.
 
 
-## Solution Item
+## Solution Item (aka Solution "Instance" Item)
 
 An item of `type: "Solution"` with `typeKeywords: "Solution"`
 
