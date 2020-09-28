@@ -13,7 +13,7 @@ For example, a Hurricane Response Solution may contain:
 
 ## Solution Creation
 
-The process of converting one or more items, into an array of `IItemTemplate` objects which can later be deployed into fully operational items.
+The process of converting one or more items or groups, into an array of `ITemplate` objects which can later be deployed into fully operational items or groups.
 
 ## Solution Deployment
 

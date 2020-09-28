@@ -1,6 +1,8 @@
 App -> deploySolution: id
 deploySolution -> getSolutionById: id
 getSolutionById -> deploySolution: ISolutionModel
+deploySolution -> canDeploy: license check
+canDeploy -> deploySolution: IDeployable
 deploySolution -> topo sort: ITemplate[]
 Note over topo sort: sort into \n build order
 topo sort -> deploySolution: sorted templates

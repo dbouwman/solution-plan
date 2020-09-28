@@ -20,7 +20,7 @@ The original use case for Solution.js was focused on working in a browser. Howev
 
 ## Additional Documents
 - [v2 Core API](./core-api.md)
-- [v2 Item Processor API](./processor-api.md)
+- [v2 Processor API](./processor-api.md)
 
 
 ## Other Considerations
@@ -51,10 +51,13 @@ In the process of implementing the features listed above, other necessary refact
 - Solution.js should be quick to release for any developer w/ correct access (npm + gh)
 - decouple deployment of test harness apps from release of core library
 - consider automation of release
-    - i.e. merge to master from develop causes a relase
+    - i.e. merge to master from develop causes a release
 
 #### General Clean up
+- All messages returned from the library should use `ITranslatableMessage` to enable translation
 - directly import rest-js functions vs using wrappers from `common`
 - remove `@license` directive from all but top-level exports as it massively bloats webpack based builds using the library
-- consistent use of `changelog`, perhaps using commitizen. Will become critical as project gets more developers and more consumers
+- consistent use of `changelog`, perhaps using [commitizen](https://github.com/commitizen/cz-cli). Having a consistently mainatined changelog will become critical as project gets more developers and more consumers.
+
+
 

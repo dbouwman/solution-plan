@@ -1,0 +1,9 @@
+Title: High-Level Deploy Process
+App -> Core Deploy: Template[]
+Core Deploy -> Type Processor: 
+Type Processor -> Portal API: Create Item
+Portal API -> Type Processor: Item
+Note over Type Processor: POST resources &\n relationships to \n reconstruct Item
+Type Processor -> Core Deploy: ITemplateOutput
+Note over Core Deploy: Process other \n templates
+Core Deploy -> App: ITemplateOutput[]

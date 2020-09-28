@@ -29,17 +29,11 @@ The "Conversion" functions all return an array of `ITemplate` objects. This can 
  - Some items will just want the group created
  - Some items will expect the group _content_ to be included as dependencies of the solution
 
-**Currently**:
-During the conversion process, groupId's are returned in the `dependencies` array, leading to complexity all over the place
+**CURRENTLY**:
+During the conversion process, groupId's are returned in the `dependencies` array, leading to complexity / mixed concerns all over the place.
 
-**Instead**
-Couple options here, none of which seem "complete" yet...
-
-a) Dependencies array is made up of `IDependency` objects like `{id: '3ef', type: 'Web Map'}, {id: 'bc7', type:'Group}`. Keeps a single array, but does not communicate if we need to include the group content...
-
-b) Processor fetchs the group, returns an `IGroupTemplate`, and if it wants the group contents templated, it should fetch all the item ids for the items in the group, and return them in `.dependencies[]`. The `IGroupTemplate`
-
-c) original processor returns `dependencies` array, and a `groups` array filled with objects `{id: '3ef', includeItems: true}`
+**PROPOSED**
+If an item Processor determines a Group is required, it fetches the Group, returns an `IGroupTemplate`. If it wants the group contents templated, it should fetch all the item ids for the items in the group, and return them in `.dependencies[]` of the `IGroupTemplate`.
 
 
 ## Convert Group Content to Templates
@@ -139,7 +133,7 @@ export deployTemplates(
   ):Promise<ITemplateOutput[]> {...}
 ```
 
-**Note**: This does not create a Solution item with references to the deployed items.
+**Note**: This does not create a Solution Item with references to the deployed items.
 
 
 ## Deploy from Solution Template Item
@@ -154,6 +148,17 @@ export deploySolution(
   ):Promise<ISolutionModel> {...}
 ```
 
+## Privilege and License Check
+
+Used internally but also exported so UI's can determine if a given user can deploy a given list of templates
+
+```js
+export canDeploy(
+  currentUser: IUser, // IUser is imported from REST-JS,
+  templates: ITemplate[], 
+  authentication: IAuthenticationManager
+): Promise<IDeployable>
+```
 
 ## Clone Item
 Handles the entire "cloning" process. 
@@ -167,7 +172,7 @@ export cloneFromItemId(
   ):Promise<ITemplateOutput[]> {...}
 ```
 
-Which really delegates to:
+Which delegates to:
 
 ```js
 export cloneFromItem(
