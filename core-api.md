@@ -152,6 +152,19 @@ export canUserDeployTemplates(
 ): Promise<IDeployable>
 ```
 
+## Add Template to Solution
+
+In addition to adding the template to the templates array, this also handles the id replacement through all the other templates.
+
+```js
+export addTemplate(
+  template: ITemplate,
+  templates: ITemplate[], 
+  authentication: IAuthenticationManager
+): Promise<ITemplate[]>
+```
+
+
 ## Clone Item
 Handles the entire "cloning" process. With this process, the Privilege and License Check must be run after the Templates are created, but before the deployment process begins. 
 

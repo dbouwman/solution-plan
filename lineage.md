@@ -1,5 +1,9 @@
 # Lineage
 
+
+![Solution Lineage Model](./Solution-Lineage.png)
+[LucidCart Drawing](https://app.lucidchart.com/documents/edit/81a92f85-ae50-4f65-9e33-0ef9c9d8e6f1/0_0?beaconFlowId=392572DB9C8DD27B#?folder_id=home&browser=icon)
+
 **In Process*
 
 Goals:
