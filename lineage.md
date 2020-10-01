@@ -1,39 +1,62 @@
-# Lineage
+# Solution Lineage
 
-
-![Solution Lineage Model](./Solution-Lineage.png)
-[LucidCart Drawing](https://app.lucidchart.com/documents/edit/81a92f85-ae50-4f65-9e33-0ef9c9d8e6f1/0_0?beaconFlowId=392572DB9C8DD27B#?folder_id=home&browser=icon)
-
-**In Process*
+Solution Lineage is the concept of being able to trace from instances of Solutions / Items back to their original source templates, and/or source items.
 
 Goals:
-- track a deployed item back to
-  - the Solution Template it was deployed from
-  - the Solution instance it is related to
-  - the original item it was templated from
+- track a deployed item back to:
+  - the Solution Instance it is related to (`solutionId`)
+  - the Solution Template it was deployed from (`solutionTemplateId`)
+  - the original item it was templated from (`sourceId`)
 
-- track a Solution instance back to
-  - the Solution Template it was created from
+- track a Solution Instance back to
+  - the Solution Template it was created from (`solutionTemplateId`)
 
-## Questions
-- must these be "searchable" or merely possible?
+Creating the lineage requires simply holding various id's in properties of the various items, as shown in the following diagram
 
-## Lineage Json in Deployed Items
-- stored in `item.properties` and thus not searchable, but we can traverse the ids
-```
+![Solution Lineage Model](./images/Solution-Lineage.png)
+[LucidCart Drawing](https://app.lucidchart.com/documents/edit/81a92f85-ae50-4f65-9e33-0ef9c9d8e6f1/0_0?beaconFlowId=392572DB9C8DD27B#?folder_id=home&browser=icon)
+
+
+## Lineage Json
+Stored in `item.properties` and thus not searchable, but we can traverse the ids. For simplicity of access, we should use these properties when programatically accessing the Ids (vs parsing typeKeywords)
+
+
+```js
+// Example for a Deployed Solution Instance
 {
+  ...
   properties: {
-    solutionId: '3ef', // Solution Instance
-    solutionTemplateId: 'bc7', // Solution Template deployed from
-    sourceItemId: '87c', // original item id
+    solutionTemplateId: 'bc7', // Solution Template
   }
+  ...
 }
 ```
 
-If they must be searchable, store them in `typeKeywords` as follows:
+```js
+// Example for a Deployed Item
+{
+  ...
+  properties: {
+    solutionId: '3ef', // Solution Instance
+    solutionTemplateId: 'bc7', // Solution Template
+    sourceItemId: '87c', // original item id
+  }
+  ...
+}
+```
 
-- `solutionid|3ef` Solution Instance
-- `solutionTemplateId|bc7` Solution Template it was deployed from
-- `sourceItemId|87c` Original Item Id
+### Searchable Lineage
+These same properties are converted into `typeKeywords`, and used for searching:
 
-*Note* Checking if this is "ok" with the API team
+```js
+{
+  ...
+  typeKeywords: [
+    "solutionid|3ef",
+    "solutionTemplateId|bc7",
+    "sourceItemId|87c"
+  ],
+  ...
+}
+```
+
