@@ -12,8 +12,8 @@ The three main processes make up the "core" of the Solution.js system:
 
 Key changes to this area of the codebase:
 - entire process should occur in-memory
-- the conversion process should delegate as much as possible to the type specific processors. 
-  - i.e. a type should know how to handle it's specific resources, info files etc etc, vs having some shared code try to handle all the possible cases
+- the conversion process should delegate as much as possible to the [Type Specific Processors](./terminology#type-specific-processors). 
+  - i.e. a Processor should know how to handle it's specific resources, info files etc etc, vs having some shared code try to handle all the possible cases
 - core "orchestration" function should still report progress and handle clean-up on failures, without introducing side-effects
 - support various logging levels to make debugging in production possible
 

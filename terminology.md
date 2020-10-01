@@ -32,6 +32,9 @@ An item of `type: "Solution"` with `typeKeywords: "Solution", "Template"`
 
 It's `/data` contains an array of `ITemplates` which describe the items that will be created when the Solution is Deployed.
 
+## Type Specific Processor
+A Processor is a class with static methods that is responsible for type specific logic to convert from an instance into a template and then back to an instance. Additional details in the [processor api documentation](./processor-api)
+
 
 
 
