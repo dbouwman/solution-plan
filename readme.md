@@ -34,6 +34,7 @@ Currently, the items/groups that are converted to Templates are highly curated b
 The original use case for Solution.js was focused on working in a browser. However, given the number of platform requests involved in the processing, it would be beneficial if we had the option to run the process in a server-side environment. The Hub team in particular is planning to build a http api to encapsulate the various process flows that will leverage Solution.js to ensure determistic outcomes regardless of the end-user's internet connection. To that end, the next major version of Solution.js must be able to run in Node.js
 
 ## Additional Documents
+- [Interfaces](./intefaces.md)
 - [v2 Core API](./core-api.md)
 - [v2 Processor API](./processor-api.md)
 - [Processor Factory](./processor-factory.md)

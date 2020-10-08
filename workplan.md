@@ -3,13 +3,13 @@
 ## 1 Create packages and Harness
 In order to keep things clean, we will create three new packages in the mono-repo. When this project is complete, the other packages will be removed.
 
-### [Core Package](./core-api)
+### [Core Package](./core-api.md)
 - the main orchestration functions
 - the solution specific interfaces
 - shared helper functions that are specific to Solutions
   - more generic helpers should be PR'd to rest-js
 
-### [Processor Package](./processor-api)
+### [Processor Package](./processor-api.md)
 - contain the item type specific processors
 - depends on the `core` package
 
@@ -22,7 +22,7 @@ In order to keep things clean, we will create three new packages in the mono-rep
 - any dev can add routes as needed - this is purely a development/debugging tool
 
 ## 2 Refactor Conversion Functions and Processors
-- create module exporting the [core api](./core-api) functions
+- create module exporting the [core api](./core-api.md) functions
 - implement functions, add tests
 - focus on the core loop of loading an item, delegating to processor, adding it's dependencies to the list, continuing
   - this needs to be deterministic, performant, and implemented in a manner that other devs can reason about

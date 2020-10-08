@@ -43,19 +43,19 @@ interface ISolution {
 ```
 
 ## ISolutionData
-**Note**: Using the same item type for both the Template and Output content is messy. Not sure if we want the `templates` in the "Deployed" Solution... currently Solutions replaces the content of the templates array w/ `{id: 'ed0', type: 'Web Map'}` which is difficult to model using types
+**Note**: Using the same item type for both the Template and Output content is confusing. Not sure if we want the `templates` in the "Deployed" Solution... currently Solutions replaces the content of the templates array w/ `{id: 'ed0', type: 'Web Map'}` which is difficult to model using types
 
 **CURRENTLY**
+
 ```js
 interface ISolutionData {
   templates: ITemplate[]; // mix of items and groups
-  // metadata: object; // This is currently in the Solution items, but does not seem to be used...
-  params: object; // parameters needed for the solution - aka indicators
-  output?: ITemplateOutput[] // pointers to created items/groups, with refs back to templates
+  metadata: object; // This is currently in the Solution items, but does not seem to be used...
 }
 ```
 
 **PROPOSED**
+
 This separated the Item and Group templates, simplifying the Processor interfaces.
 This will require a schema transformation for existing solution items.
 
@@ -68,15 +68,8 @@ interface ISolutionData {
 }
 ```
 
-
-## TemplateType
-**Note**: Not sure if we really need this... we could move the `type` property up one level and it's an IGroupTemplate when `.type === "Group"`. Seems less typescripty, but this seems overkillish for how rare Groups are.
-
-```js
-type TemplateType = "ITEM" || "GROUP";
-```
-
 ## ITemplate
+
 Base for IItemTemplate and IGroupTemplate
 
 ```js
@@ -110,13 +103,14 @@ interface IItemTemplate extends ITemplate {
 ```
 
 ## ISolutionResource
+This is different from `IItemResourceResponse` in REST-JS, specifically because we need additional information.
 
 When 'in-memory' the sourceUrl's point to the original resource location. When in a Solution Template item, the sourceUrl will point to resources of the Solution Template item.
 
 ```js
 interface ISolutionResource {
   fileName: string; // file name of the resource itself
-  type: ResourceType; // resoruce type information
+  type: SolutionResourceType; // resource type information
   path: string; // folder path used on destination item
   sourceUrl: string; // url where this can be fetched from
 }
@@ -128,9 +122,6 @@ interface ISolutionResource {
 ```js
 type SolutionResourceType = "thumbnail" | "metadata" | "resource" | "data" | "fakezip"
 ```
-
-
-
 
 ## ITemplateOutput
 

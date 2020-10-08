@@ -12,7 +12,7 @@ The three main processes make up the "core" of the Solution.js system:
 
 Key changes to this area of the codebase:
 - entire process should occur in-memory
-- the conversion process should delegate as much as possible to the [Type Specific Processors](./terminology#type-specific-processors). 
+- the conversion process should delegate as much as possible to the [Type Specific Processors](./terminology.md#type-specific-processors). 
   - i.e. a Processor should know how to handle it's specific resources, info files etc etc, vs having some shared code try to handle all the possible cases
 - core "orchestration" function should still report progress and handle clean-up on failures, without introducing side-effects
 - support various logging levels to make debugging in production possible
@@ -120,7 +120,8 @@ Used in "cloning" workflows - allows for direct deployment of an in-memory array
 ```js
 export deployTemplates(
     templates: ITemplate[], 
-    variables: object, // for template interpolation 
+    variables: object, // for template interpolation
+    options: object, // includes optional foldername/id
     authentication: IAuthenticationManager
   ):Promise<ITemplateOutput[]> {...}
 ```
@@ -135,7 +136,8 @@ Deploys the templates, based on a Solution Template item and returns a new Solut
 ```js
 export deploySolution(
     itemId: string, 
-    variables: object, // for template interpolation 
+    variables: object, // for template interpolation
+    options: object, // includes optional foldername/id 
     authentication: IAuthenticationManager
   ):Promise<ISolutionModel> {...}
 ```
@@ -187,3 +189,7 @@ export cloneFromItem(
 ```
 
 We don't anticipate a requirement to clone the entire contents of a group, although all the underlying functions would exist to implement that if the need arises.
+
+## Removing a Solution
+
+In order to cleanly remove a Solution, we should have a function which once again delegates to the Type Specific Processors to delete the items cleanly, doing any type-specific logic (i.e. removing domain entries for Sites)
