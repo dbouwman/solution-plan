@@ -137,6 +137,10 @@ interface ITemplateOutput {
 }
 ```
 
+## IPostProcessResult
+
+
+
 ## IDeployable
 
 Simple object indicating if a Template can be deployed by a given user.

@@ -24,7 +24,7 @@ The process of converting an array of `ITemplate` objects into a fully operation
 
 An item of `type: "Solution"` with `typeKeywords: "Solution"`
 
-It's `/data` contains an array of `IDeployedItem` objects, which reference the operational items that were deployed with this Solution.
+It's `/data` contains an array of `ITemplateOutput` objects, which reference the operational items that were deployed with this Solution.
 
 ## Solution Template Item
 
