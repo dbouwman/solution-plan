@@ -4,7 +4,7 @@ This document lists the core interfaces for the top level Solution API
 ## IItem
 Represents the common meta information for a Portal Item
 
-We can import this from  arcgis-rest-js
+We can import this from  [arcgis-rest-js](https://esri.github.io/arcgis-rest-js/api/types/IItem/)
 
 ```js
 interface IItem {
@@ -61,8 +61,8 @@ This will require a schema transformation for existing solution items.
 
 ```js
 interface ISolutionData {
-  itemTemplates: IItemTemplate[]; // items to be deployed
-  groupTemplates: IGroupTemplate[]; // Groups to be deployed
+  itemTemplates?: IItemTemplate[]; // items to be deployed
+  groupTemplates?: IGroupTemplate[]; // Groups to be deployed
   params: object; // parameters needed for the solution - aka indicators
   output?: ITemplateOutput[] // pointers to created items/groups, with refs back to templates
 }
@@ -70,7 +70,7 @@ interface ISolutionData {
 
 ## ITemplate
 
-Base for IItemTemplate and IGroupTemplate
+Base for `IItemTemplate` and `IGroupTemplate`
 
 ```js
 interface ITemplate {
@@ -99,8 +99,11 @@ interface IItemTemplate extends ITemplate {
   properties: object; // other type-specific information, could be form, layer schema etc
   dependencies: string[]; // array of item id's that must be deployed before this item
   relatedItems: IRelatedItems[]; // relationship information so we can re-connect during deployment
+  relativeCost: number; 
 }
 ```
+
+**Note** `relativeCost` denotes the deployment cost relative to creating a Web Map. i.e. creating a feature service may be 10, but a Hub Page may be a 2. Templates that simply involve creating an item and uploading a thumbnail should have the default value of 1.
 
 ## ISolutionResource
 This is different from `IItemResourceResponse` in REST-JS, specifically because we need additional information.
@@ -117,7 +120,7 @@ interface ISolutionResource {
 ```
 
 ### ResourceType
-**TODO**: Check with Mike T re: when `fakezip` is used, and how we would handle that for the in-memory scenario
+**TODO**: Check re: when `fakezip` is used, and how we would handle that for the in-memory scenario
 
 ```js
 type SolutionResourceType = "thumbnail" | "metadata" | "resource" | "data" | "fakezip"
@@ -139,7 +142,7 @@ interface ITemplateOutput {
 
 ## IProcessOptions
 
-Generalized options hash for Conversion and serializing into a Solution Item
+Generalized options hash for Conversion and Serializing into a Solution Item
 
 ```js
 interface IProcessOptions {
@@ -161,9 +164,9 @@ interface IDeploymentOptions extends IProcessOptions {
 
 ## IProcessCallback & IProcessStatus
 
-This is the callback function that is passed into the various core api functions, which is used to return status information. This will only communicate `working` vs `complete` status. The final status of a process will be returned via the resolution of the originating promise.
+This is the callback function that is passed into the various core api functions, which is used to return status information. This will only communicate information about what the system is currently working on. The final status (success/failure) of a process will be returned via the resolution of the originating promise.
 
-Since we don't know how long converting an item to a template will take (we don't know the depth of the dependency graph) we can not return a `percentDone` number. However, the system will return an `ITranslatableMessage` with information regarding what is being worked on so we can some form of progress to the user.
+Since we don't know how long converting an item into a set of templates will take (we don't know the depth of the dependency graph) we can not return a `percentDone` number. However, the system will return an `ITranslatableMessage` with information regarding what is being worked on so we can some form of progress to the user.
 
 During the deployment, we know how many templates we are going to process, so we can compute a rough percent complete, and return that along with the message.
 

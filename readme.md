@@ -2,7 +2,7 @@
 
 The Solution.js project has been successful to date, but with that success have come opportunities to expand the project's capabilities, and make it easier to extend for use across all app teams within Esri.
 
-If you are new to Solutions, take a moment to review the [terminology](./terminology.md) used.
+If you are new to Solutions, or have been deep in the previous version, take a moment to review the [terminology](./terminology.md) used, as things have changed.
 
 ## Core Features
 
@@ -34,10 +34,10 @@ Currently, the items/groups that are converted to Templates are highly curated b
 The original use case for Solution.js was focused on working in a browser. However, given the number of platform requests involved in the processing, it would be beneficial if we had the option to run the process in a server-side environment. The Hub team in particular is planning to build a http api to encapsulate the various process flows that will leverage Solution.js to ensure determistic outcomes regardless of the end-user's internet connection. To that end, the next major version of Solution.js must be able to run in Node.js
 
 ## Additional Documents
-- [Interfaces](./intefaces.md)
+- [Interfaces](./interfaces.md)
 - [v2 Core API](./core-api.md)
 - [v2 Processor API](./processor-api.md)
-- [Processor Factory](./processor-factory.md)
+- [Processor Discovery](./processor-discovery.md)
 - [Item Lineages](./lineage.md)
 - [Workplan](./workplan.md)
 
