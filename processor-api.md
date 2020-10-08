@@ -16,7 +16,7 @@ public static canDeploy(
   ): Promise<boolean> {...}
 ```
 
-Given an `IItem` or an `ITemplate`, the processor can inspect the type, typekeywords or anything else about the object to determine if it should process it. Currently this is done via a simple lookup based on `item.type`. This new pattern inverts the pattern allowing the processor itself to make the determination, keeping all the type-specific logic in the same place. More information is in the (Processor Discovery)[./processor-discovery.md] document.
+Given an `IItem` or an `ITemplate`, the processor can inspect the type, typekeywords or anything else about the object to determine if it should process it. Currently this is done via a simple lookup based on `item.type`. This new pattern inverts the pattern allowing the processor itself to make the determination, keeping all the type-specific logic in the same place. More information is in the [Processor Discovery](./processor-discovery.md) document.
 
 
 ## License & Privilege Checking
