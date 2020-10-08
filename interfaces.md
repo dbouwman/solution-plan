@@ -137,9 +137,59 @@ interface ITemplateOutput {
 }
 ```
 
+## IProcessOptions
+
+Generalized options hash for Conversion and serializing into a Solution Item
+
+```js
+interface IProcessOptions {
+  authentication: IAuthenticationManager,
+  callback?: ProcessCallbackFunc
+}
+```
+
+## IDeploymentOptions
+Extended options used during the deployment of templates
+
+```js
+interface IDeploymentOptions extends IProcessOptions {
+  variables: object; // hash of properties for template interpolation
+  params: object; // additional parameters, i.e. existing folderid
+}
+```
+
+
+## IProcessCallback & IProcessStatus
+
+This is the callback function that is passed into the various core api functions, which is used to return status information. This will only communicate `working` vs `complete` status. The final status of a process will be returned via the resolution of the originating promise.
+
+Since we don't know how long converting an item to a template will take (we don't know the depth of the dependency graph) we can not return a `percentDone` number. However, the system will return an `ITranslatableMessage` with information regarding what is being worked on so we can some form of progress to the user.
+
+During the deployment, we know how many templates we are going to process, so we can compute a rough percent complete, and return that along with the message.
+
+Messages will originate either in the core-api functions, or from the results of the type specific processor functions. The `ProcessCallbackFunc` will not be passed into the processor functions.
+
+```js
+interface IProcessStatus {
+  message: ITranslatableMessage; // Message
+  percentDone?: number; // only for deployment, approx. percent complete
+}
+
+interface ProcessCallbackFunc { 
+  (status: IProcessStatus): void;
+}
+```
+
 ## IPostProcessResult
 
+Indicating the results of the post-processing phase
 
+```js
+interface IPostProcessResult {
+  status: boolean; // was the process successful?
+  reasons: ITranslatableMessage[]; // array of messages specifying why things failed
+}
+```
 
 ## IDeployable
 
@@ -148,8 +198,8 @@ Simple object indicating if a Template can be deployed by a given user.
 ```js
 interface IDeployable {
   username: string; // username
-  canDeploy: boolean, // can the user deploy the template?
-  reasons: ITranslatableMessage[]; // array of messages detailing why the user can't deploy the template
+  canDeploy: boolean: // can the user deploy the template?
+  reasons: ITranslatableMessage[] // array of messages detailing why the user can't deploy the template
 }
 
 // Example

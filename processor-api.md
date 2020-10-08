@@ -126,7 +126,16 @@ export class BaseProcessor {
     otherItems:ITemplateOutput[], 
     authentication: IAuthenticationManager
   ): Promise<IPostProcessResult> {
-    return Promise.reject('Type Specific Processor Must override postProcess()');
+    // Will have a base no-op implementation that just says the postProcess was skipped
+    return Promise.resolve(...);
+  }
+
+  static removeItem (
+    item: IItem,
+    authentication: IAuthenticationManager
+  ): Promise<boolean> {
+    // Will have a base implementation that just deletes the item
+    return Promise.resolve(...)
   }
 }
 ```

@@ -50,7 +50,7 @@ Three functions handle various scenarios depending on what the consuming app has
 ```js
 export convertFromItemId(
     itemId:string, 
-    authentication: IAuthenticationManager
+    options: IProcessOptions
   ):Promise<ITemplate[]> {...}
 ```
 
@@ -59,7 +59,7 @@ Which delegates to...
 ```js
 export convertFromItemIds(
     itemIds:string[], 
-    authentication: IAuthenticationManager
+    options: IProcessOptions
   ):Promise<ITemplate[]> {...}
 ```
 
@@ -68,7 +68,7 @@ which fetches the items and delegates to...
 ```js
 export convertFromItems(
     items: IItem[], 
-    authentication: IAuthenticationManager
+    options: IProcessOptions
   ):Promise<ITemplate[]> {...}
 ```
 
@@ -87,7 +87,8 @@ Decoupling this step allow for more flexibility in how the library is used, incl
 ```js
 export saveAsSolutionTemplate(
     solutionInfo: IItemAdd, 
-    templates: ITemplate[]
+    templates: ITemplate[],
+    options: IProcessOptions
   ):Promise<ISolutionModel> {...}
 ```
 
@@ -120,9 +121,7 @@ Used in "cloning" workflows - allows for direct deployment of an in-memory array
 ```js
 export deployTemplates(
     templates: ITemplate[], 
-    variables: object, // for template interpolation
-    options: object, // includes optional foldername/id
-    authentication: IAuthenticationManager
+    options: IDeploymentOptions,
   ):Promise<ITemplateOutput[]> {...}
 ```
 
@@ -136,9 +135,7 @@ Deploys the templates, based on a Solution Template item and returns a new Solut
 ```js
 export deploySolution(
     itemId: string, 
-    variables: object, // for template interpolation
-    options: object, // includes optional foldername/id 
-    authentication: IAuthenticationManager
+    options: IDeploymentOptions,
   ):Promise<ISolutionModel> {...}
 ```
 
@@ -175,7 +172,7 @@ Handles the entire "cloning" process. With this process, the Privilege and Licen
 ```js
 export cloneFromItemId(
     itemId: string, 
-    authentication: IAuthenticationManager
+    options: IDeploymentOptions
   ):Promise<ITemplateOutput[]> {...}
 ```
 
@@ -184,7 +181,7 @@ Which delegates to:
 ```js
 export cloneFromItem(
   item: IItem, 
-  authentication: IAuthenticationManager
+  options: IDeploymentOptions
   ):Promise<ITemplateOutput[]> {...}
 ```
 
@@ -193,3 +190,10 @@ We don't anticipate a requirement to clone the entire contents of a group, altho
 ## Removing a Solution
 
 In order to cleanly remove a Solution, we should have a function which once again delegates to the Type Specific Processors to delete the items cleanly, doing any type-specific logic (i.e. removing domain entries for Sites)
+
+```js
+export removeSolution (
+  itemId: string, // solution item id
+  options: IProcessOptions // options for status callback and auth
+): Promise<IProcessStatus> {...}
+```
