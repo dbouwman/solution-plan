@@ -185,7 +185,7 @@ export cloneFromItem(
   ):Promise<ITemplateOutput[]> {...}
 ```
 
-We don't anticipate a requirement to clone the entire contents of a group, although all the underlying functions would exist to implement that if the need arises.
+We don't anticipate a requirement to clone the entire contents of a group, although all the underlying functions would exist to implement that if the need arises.  **TODO**: May need to clone contents of the group used by the Crowdsource apps; the group contains the Webmaps used in the apps. 
 
 ## Removing a Solution
 
