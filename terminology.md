@@ -22,7 +22,7 @@ The process of converting an array of `ITemplate` objects into a fully operation
 
 ## Solution Item (aka Solution "Instance" Item)
 
-An item of `type: "Solution"` with `typeKeywords: "Solution"`
+An item of `type: "Solution"` with `typeKeywords: "Solution", "Deployed"`
 
 It's `/data` contains an array of `ITemplateOutput` objects, which reference the operational items that were deployed with this Solution.
 
