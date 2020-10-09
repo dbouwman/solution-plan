@@ -8,30 +8,30 @@ If you are new to Solutions, or have been deep in the previous version, take a m
 
 ### Convert Item to Template
 
-The Core api orchestrates one or more type specific Processors, which communicate with the Portal API to construct a set of json templates, which collectively can be re-deployed to re-create the original item and its dependencies.
+The Core API orchestrates one or more type specific Processors, which communicate with the Portal API to construct a set of JSON templates, which collectively can be re-deployed to re-create the original item and its dependencies.
 
 ![Conversion to Template](./diagrams/convert-high-level.png)
 
 
 ### Deploy Item from Template
 
-The inverse of converting an item to a template. The Core api orchestrates type specific Processors which create new item instances, based on json templates.
+The inverse of converting an item to a template. The Core API orchestrates type specific Processors which create new item instances, based on JSON templates.
 
 ![Deployment from Template](./diagrams/deploy-high-level.png)
 
 ## New Features
 
 ### Cloning Items with Dependencies
-The current Solution system can take an item, determine all it's dependencies (other items, services, maps etc) and serialize that information into a set of Templates, which can then be used to re-deploy the entire "stack" of items, re-connecting all the dependencies. The system has all the necessary capabilities to enable "cloning" workflows, except it currently requires serializing the Templates to a Solution it prior to deployment.
+The current Solution system can take an item, determine all its dependencies (other items, services, maps etc) and serialize that information into a set of Templates, which can then be used to re-deploy the entire "stack" of items, re-connecting all the dependencies. The system has all the necessary capabilities to enable "cloning" workflows. The only caveat is that it currently requires serializing the original items into a `Solution` item before turning that `Solution` item into the new cloned items.
 
 ### Simplified Item Type Specific Processors
-To date, the Solutions team and the Hub team have collaborated on the creation of "type specific" processors - code which introspects items and determines their dependencies. This has been successful to date, but to be sustainable over time, we need the app teams who "own" specific item types to take over the creation and maintenance of these processors. To that end we need to make the processors much simpler to write, and maintain.
+To date, the Solutions team and the Hub team have collaborated on the creation of "type specific" processors - code which inspects items and determines their dependencies. This has been successful to date, but to make this sustainable we need the app teams who "own" specific item types to take over the creation and maintenance of these processors. To that end we need to make the processors much simpler to write and maintain.
 
 ### Adding / Removing Individual Templates from a Solution
-Currently, the items/groups that are converted to Templates are highly curated by the Solution Team, and it is a slow, iterative process to create Solution Templates that operate exactly as intended. To simplify the Solution Template editing experience, we need a means to re-convert a single item, and optionally it's dependencies, and have that injected into a Solution Item's Templates array, without disturbing other templates. We also need the option to add a new template into an existing solution, ensuring no duplication of dependencies. This can all be accomplished by refactoring the current system into a set of finer-grained templatizing function calls, along with some helper functions that can merge templates into a template array.
+Currently, the items/groups that are converted to templates are highly curated by the Solutions team, and it is a slow, iterative process to create Solution Templates that operate exactly as intended. To simplify the Solution Template editing experience, we need a means to re-convert a single item, and optionally its dependencies, and have that injected into a `Solution` item's templates array, without disturbing other templates. We also need the option to add a new template into an existing solution, ensuring no duplication of dependencies. This can all be accomplished by refactoring the current system into a set of finer-grained templatizing function calls, along with some helper functions that can merge templates into a template array.
 
 ### Full Node.js Support
-The original use case for Solution.js was focused on working in a browser. However, given the number of platform requests involved in the processing, it would be beneficial if we had the option to run the process in a server-side environment. The Hub team in particular is planning to build a http api to encapsulate the various process flows that will leverage Solution.js to ensure determistic outcomes regardless of the end-user's internet connection. To that end, the next major version of Solution.js must be able to run in Node.js
+The original use case for Solution.js was focused on working in a browser. However, given the number of platform requests involved in the processing, it would be beneficial if we had the option to run the process in a server-side environment. The Hub team in particular is planning to build an HTTP API to encapsulate the various process flows that will leverage Solution.js to ensure determistic outcomes regardless of the end-user's internet connection. To that end, the next major version of Solution.js must be able to run in Node.js
 
 ## Additional Documents
 - [Interfaces](./interfaces.md)
