@@ -81,6 +81,8 @@ public static postProcess(
 
 **NOTE** Groups will be handled internally by a `GroupProcessor`, and the `postProcess` phase will be where the sharing calls will be made.
 
+## Deployment Clean-up
+If an unrecoverable error occurs during the deployment process, for any items that have been created, the `removeItem (...)` function will be called to allow the processor to do any pre-item-deletion work, and then delete the item itself.
 
 ### Base Class with Static Methods
 Type specific processors extend this base, providing their own implementations of the static methods.

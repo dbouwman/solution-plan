@@ -22,7 +22,7 @@ In order to keep things clean, we will create three new packages in the mono-rep
 - depends on the `helpers` package
 
 
-## 2 Orchstrator Functions - 5 days
+## 2 Orchestrator Functions - 5 days
 With the packages in place, focus in on the main iteration functions and the surrounding "plumbing"
 
 ### Implement the core iteration functions
@@ -42,7 +42,7 @@ npm publish --tag next
 
 which avoids issues of `npm i @esri/solution-core@latest` picking up the alpha stream
 
-At this point we should do something to ensure that the UMD outputs are working - perhaps a simple umd test harness app
+At this point we should do something to ensure that the UMD outputs are working - perhaps a simple umd test harness app.
 
 ## 3 Harness App - 5 days
 Before we can dive into work on the processors, we need an environment to start flexing the core, and pick items to run through the system, while seeing intermediate outputs - aka a Test Harness application

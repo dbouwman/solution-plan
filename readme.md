@@ -45,15 +45,16 @@ The original use case for Solution.js was focused on working in a browser. Howev
 
 In the process of implementing the features listed above, other necessary refactorings will also be undertaken. 
 
-#### Improve Documentation and Naming
+#### Consistent Documentation and Naming
 - function and variable names should express what something _is_ or what a function _does_ *in the context of the "process"*
-- jsdoc comments that explain the "why" behind what is being done in a function
+- jsdoc comments that explain the "why" behind what is being done in a function, in addition to what is happening
 - guides should be created focusing on: 
     - maintainers of the Solution.js core
     - developers and maintainers of the Processors
     - developers who consume Solution.js
 
 #### Focus on Functional-Style Programming
+- the vast majority of the code should be in functions
 - functions should have a single `return`
 - functions should have flat promise chains
 - functions should have focused unit tests that only exercise logic _in the function_. Mock implementations should be used instead of allowing delegation into other functions. These tests should drive code-coverage reporting.
@@ -64,6 +65,9 @@ In the process of implementing the features listed above, other necessary refact
     - callbacks may be used to indicate progress, but this should not be pushed deep down the stack. The outcome of a process should be returned to the caller via Promise resolution/rejection only.
 - asynchronous functions (i.e. which make web requests), must return `Promises`.
 - when calling asynchronous functions, caller must depend on the `Promise` resolution/rejection only.
+
+#### Few, "thin" Classes
+There are a few places where we will use `Class` in situations where having internal state is beneficial. However, these classes will be very "thin" in that their methods will simply delegate out to functions. Internal state should be minimized.
 
 #### Release Optimization
 - Solution.js should be quick to release for any developer w/ correct access (npm + gh)
