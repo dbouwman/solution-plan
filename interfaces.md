@@ -120,11 +120,15 @@ interface ISolutionResource {
 ```
 
 ### ResourceType
-**TODO**: Check re: when `fakezip` is used, and how we would handle that for the in-memory scenario
+**TODO**: Determine how we would handle `fakezip` files for the in-memory scenario
 
 ```js
-type SolutionResourceType = "thumbnail" | "metadata" | "resource" | "data" | "fakezip"
+type SolutionResourceType = "thumbnail" | "metadata" | "resource" | "data" | "fakezip" | "info"
 ```
+
+**Note** `fakezip` is used for files with extensions that AGO will not accept, i.e., any extension that is not [".json, .xml, .txt, .png, .pbf, .zip, .jpeg, .jpg, .gif, .bmp, .gz, .svg, .svgz, .geodatabase"](https://developers.arcgis.com/rest/users-groups-and-items/add-resources.htm). By adding ".zip" to the filename, AGO accepts the file, but we need a way to know that this file is not truly a zip file.
+
+**Note** `info` is used for files in an item's `esriinfo` folder that aren't covered by another `SolutionResourceType`, e.g., a Form's `forminfo.json` and `form.webform.json` files.
 
 ## ITemplateOutput
 
@@ -146,8 +150,8 @@ Generalized options hash for Conversion and Serializing into a Solution Item
 
 ```js
 interface IProcessOptions {
-  authentication: IAuthenticationManager,
-  callback?: ProcessCallbackFunc
+  authentication: IAuthenticationManager;
+  callback?: ProcessCallbackFunc;
 }
 ```
 
@@ -201,8 +205,8 @@ Simple object indicating if a Template can be deployed by a given user.
 ```js
 interface IDeployable {
   username: string; // username
-  canDeploy: boolean: // can the user deploy the template?
-  reasons: ITranslatableMessage[] // array of messages detailing why the user can't deploy the template
+  canDeploy: boolean; // can the user deploy the template?
+  reasons: ITranslatableMessage[]; // array of messages detailing why the user can't deploy the template
 }
 
 // Example
