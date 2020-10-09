@@ -120,11 +120,13 @@ interface ISolutionResource {
 ```
 
 ### ResourceType
-**TODO**: Check re: when `fakezip` is used, and how we would handle that for the in-memory scenario
+**TODO**: Determine how we would handle `fakezip` files for the in-memory scenario
 
 ```js
 type SolutionResourceType = "thumbnail" | "metadata" | "resource" | "data" | "fakezip"
 ```
+
+**Note** `fakezip` is used for files with extensions that AGO will not accept, i.e., any extension that is not [".json, .xml, .txt, .png, .pbf, .zip, .jpeg, .jpg, .gif, .bmp, .gz, .svg, .svgz, .geodatabase."](https://developers.arcgis.com/rest/users-groups-and-items/add-resources.htm). By adding ".zip" to the filename, AGO accepts the file, but we need a way to know that this file is not truly a zip file.
 
 ## ITemplateOutput
 
