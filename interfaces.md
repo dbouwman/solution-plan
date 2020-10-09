@@ -150,8 +150,8 @@ Generalized options hash for Conversion and Serializing into a Solution Item
 
 ```js
 interface IProcessOptions {
-  authentication: IAuthenticationManager,
-  callback?: ProcessCallbackFunc
+  authentication: IAuthenticationManager;
+  callback?: ProcessCallbackFunc;
 }
 ```
 
@@ -205,8 +205,8 @@ Simple object indicating if a Template can be deployed by a given user.
 ```js
 interface IDeployable {
   username: string; // username
-  canDeploy: boolean: // can the user deploy the template?
-  reasons: ITranslatableMessage[] // array of messages detailing why the user can't deploy the template
+  canDeploy: boolean; // can the user deploy the template?
+  reasons: ITranslatableMessage[]; // array of messages detailing why the user can't deploy the template
 }
 
 // Example
