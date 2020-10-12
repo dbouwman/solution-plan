@@ -20,9 +20,9 @@ The process of converting one or more items or groups, into an array of `ITempla
 The process of converting an array of `ITemplate` objects into a fully operational Solution.
 
 
-## Solution Item (aka Solution "Instance" Item)
+## Deployed Solution Item
 
-An item of `type: "Solution"` with `typeKeywords: "Solution"`
+An item of `type: "Solution"` with `typeKeywords: "Solution", "Deployed"`
 
 It's `/data` contains an array of `ITemplateOutput` objects, which reference the operational items that were deployed with this Solution.
 
@@ -31,6 +31,9 @@ It's `/data` contains an array of `ITemplateOutput` objects, which reference the
 An item of `type: "Solution"` with `typeKeywords: "Solution", "Template"`
 
 It's `/data` contains an array of `ITemplates` which describe the items that will be created when the Solution is Deployed.
+
+## Process Manager
+Wrapper class that holds a set of *type specific processors* and provides coarse-grained access to the core-api functions.
 
 ## Type Specific Processor
 A Processor is a class with static methods that is responsible for type specific logic to convert from an instance into a template and then back to an instance. Additional details in the [processor api documentation](./processor-api.md)

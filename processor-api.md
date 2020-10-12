@@ -57,6 +57,17 @@ public static copyResourcesToSolution(
 
 Returns a new `ITemplate` instance, in which the resource urls have been updated to point to the Solution vs the original item.
 
+## Conversion Post-Processing
+Allows a type specific processor a chance to update other templates that were created. Allows for second-pass interpolation to resolve circular dependencies, sharing, references to included feature services, etc.
+
+```js
+public static postProcess(
+  item: ITemplate, 
+  otherItems:ITemplate[], 
+  authentication: IAuthenticationManager
+  ): Promise<IPostProcessResult> {...}`
+```
+
 ## Deploy from Template
 
 Deploy an item or group from a template.
@@ -90,12 +101,15 @@ Type specific processors extend this base, providing their own implementations o
 ```js
 // Base class we extend and provide static methods that override
 export class BaseProcessor {
+
   static canConvert(item:IItem):Promise<boolean> {
     return Promise.resolve(false);
   }
+
   static canDeploy(template:ITemplate):Promise<boolean> {
     return Promise.resolve(false);
   }
+
   static canUserDeployTemplate(
     user: IUser,
     template:ITemplate,
@@ -103,12 +117,14 @@ export class BaseProcessor {
     ):Promise<IDeployable> {
     return Promise.resolve(false);
   }
+
   static convertToTemplate(
     item:IItem, 
     authentication: IAuthenticationManager
     ): Promise<ITemplate[]> {
     return Promise.reject('Type Specific Processor Must override convertToTemplate()');
   }
+
   static copyResourcesToSolution(
     template: ITemplate,
     targetItem: IItem,
@@ -116,6 +132,16 @@ export class BaseProcessor {
     ):Promise<IItemTemplate> {
       return Promise.reject('Type Specific Processor Must override copyResourcesToSolution()');
     }
+
+  static convertPostProcess(
+    item: ITemplate, 
+    otherItems:ITemplate[], 
+    authentication: IAuthenticationManager
+  ): Promise<IPostProcessResult> {
+    // Will have a base no-op implementation that just says the postProcess was skipped
+    return Promise.resolve(...);
+  }
+
   static deployFromTemplate(
     template:ITemplate,
     authentication: IAuthenticationManager
@@ -123,7 +149,7 @@ export class BaseProcessor {
     return Promise.reject('Type Specific Processor Must override createFromTemplate()');
   }
 
-  static postProcess(
+  static deployPostProcess(
     item: ITemplateOutput, 
     otherItems:ITemplateOutput[], 
     authentication: IAuthenticationManager
@@ -139,5 +165,6 @@ export class BaseProcessor {
     // Will have a base implementation that just deletes the item
     return Promise.resolve(...)
   }
+
 }
 ```
