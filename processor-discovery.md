@@ -1,6 +1,6 @@
 # Processor Discovery
 
-The system needs a means to figure out what Processor should be used for a specific `IItem` or `ITemplate`. We want to encapsulate this decision logic inside the Processor's themselves, and we use "discovery functions" to acheive this.
+The system needs a means to figure out what Processor should be used for a specific `IItem` or `ITemplate`. We want to encapsulate this decision logic inside the Processor's themselves, and we use "discovery functions" to achieve this.
 
 ## Planned Implementation
 Example Repl https://repl.it/@dbouwman/ItemProcessorFactory#index.ts
