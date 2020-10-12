@@ -10,14 +10,14 @@ If you are new to Solutions, or have been deep in the previous version, take a m
 
 ### Convert Item to Template
 
-The Core api orchestrates one or more type specific Processors, which communicate with the Portal API to construct a set of json templates, which collectively can be re-deployed to re-create the original item and its dependencies.
+The Process Manager orchestrates one or more type specific Processors, which communicate with the Portal API to construct a set of json templates, which collectively can be re-deployed to re-create the original item and its dependencies.
 
 ![Conversion to Template](./diagrams/convert-high-level.png)
 
 
 ### Deploy Item from Template
 
-The inverse of converting an item to a template. The Core api orchestrates type specific Processors which create new item instances, based on json templates.
+The inverse of converting an item to a template. The Process Manager orchestrates type specific Processors which create new item instances, based on json templates.
 
 ![Deployment from Template](./diagrams/deploy-high-level.png)
 
@@ -37,6 +37,7 @@ The original use case for Solution.js was focused on working in a browser. Howev
 
 ## Additional Documents
 - [Interfaces](./interfaces.md)
+- [Class Wrappers](./class-wrappers.md)
 - [v2 Core API](./core-api.md)
 - [v2 Processor API](./processor-api.md)
 - [Processor Discovery](./processor-discovery.md)

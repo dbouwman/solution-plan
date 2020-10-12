@@ -1,9 +1,9 @@
 Title: High-Level Conversion Process
-App -> Core Convert: Item
-Core Convert -> Type Processor: 
+App -> Process Manager: Item
+Process Manager -> Type Processor: 
 Type Processor -> Portal API:
 Portal API -> Type Processor: Item
 Note over Type Processor: Fetch resources \n dependencies etc \n construct Template
-Type Processor -> Core Convert:
-Note over Core Convert: Recurse over \n dependencies \n and collect \n templates
-Core Convert -> App: Solution Template Item
+Type Processor -> Process Manager:
+Note over Process Manager: Recurse over \n dependencies \n and collect \n templates
+Process Manager -> App: Solution Template Item

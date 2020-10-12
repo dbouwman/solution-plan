@@ -1,9 +1,9 @@
 Title: High-Level Deploy Process
-App -> Core Deploy: Solution Template Item
-Core Deploy -> Type Processor: 
+App -> Process Manager: Solution Template Item
+Process Manager -> Type Processor: 
 Type Processor -> Portal API: Create Item
 Portal API -> Type Processor: Item
 Note over Type Processor: POST resources &\n relationships to \n reconstruct Item
-Type Processor -> Core Deploy: ITemplateOutput
-Note over Core Deploy: Process other \n templates
-Core Deploy -> App: Solution Instance Item
+Type Processor -> Process Manager: ITemplateOutput
+Note over Process Manager: Process other \n templates
+Process Manager -> App: Solution Instance Item
