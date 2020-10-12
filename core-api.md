@@ -155,12 +155,24 @@ In addition to adding the template to the templates array, this also handles the
 
 ```js
 export addTemplate(
-  template: ITemplate,
+  newTemplates: ITemplate[],
   templates: ITemplate[], 
   authentication: IAuthenticationManager
 ): Promise<ITemplate[]>
 ```
 
+
+## Remove Template from a Solution
+
+Given the id of a specific template, this will remove it, and any of it's dependencies not required by any other templates, from the templates array.
+
+```js
+export removeTemplate(
+  templateId: string,
+  templates: ITemplate[], 
+  authentication: IAuthenticationManager
+): Promise<ITemplate[]>
+```
 
 ## Clone Item
 Handles the entire "cloning" process. With this process, the Privilege and License Check must be run after the Templates are created, but before the deployment process begins. 
