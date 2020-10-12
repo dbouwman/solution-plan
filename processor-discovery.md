@@ -7,17 +7,16 @@ Example Repl https://repl.it/@dbouwman/ItemProcessorFactory#index.ts
 
 ### Processor Discovery functions
 
-TODO: Review other patterns for this - perhaps using a factory class which we inject the available processors into, allowing more specific applications to work with a subset of the processors...
+Using these functions independenty is somewhat inconvenitent in that we have to pass in the `availableProcessors`. However, we expect most consumers to leverage the [class wrappers](./class-wrappers.md) which will internalize this.
 
 ```js
 export getConversionProcessor (
-  item: IItem
+  item: IItem,
+  availableProcessors: IProcessor[]
 ): BaseProcessor {
-  // List of all the Processors
-  // Not wild about this being a fixed list vs injected
-  const _processorTypes = [SiteProcessor, PageProcessor];
+
   // iterate the processors, check if any can handle the item, and return an instance
-  const processorToUse = _processorTypes.reduce((a, p) => {
+  const processorToUse = availableProcessors.reduce((a, p) => {
     if (p.canConvert(item)) {
       a = p;
     }
@@ -28,13 +27,11 @@ export getConversionProcessor (
 }
 
 export getDeploymentProcessor (
-  template: ITemplate
+  template: ITemplate,
+  availableProcessors: IProcessor[]
 ): BaseProcessor {
-  // List of all the Processors
-  // Not wild about this being a fixed list vs injected
-  const _processorTypes = [SiteProcessor, PageProcessor];
   // iterate the processors, check if any can handle the item, and return an instance
-  const processorToUse = _processorTypes.reduce((a, p) => {
+  const processorToUse = availableProcessors.reduce((a, p) => {
     if (p.canDeploy(item)) {
       a = p;
     }

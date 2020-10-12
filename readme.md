@@ -2,7 +2,9 @@
 
 The Solution.js project has been successful to date, but with that success have come opportunities to expand the project's capabilities, and make it easier to extend for use across all app teams within Esri.
 
-If you are new to Solutions, or have been deep in the previous version, take a moment to review the [terminology](./terminology.md) used, as things have changed.
+## Terminology
+
+If you are new to Solutions, or have been deep in the previous version, take a moment to review the [terminology](./terminology.md) used, as some things have changed.
 
 ## Core Features
 

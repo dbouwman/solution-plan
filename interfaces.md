@@ -68,6 +68,29 @@ interface ISolutionData {
 }
 ```
 
+## IProcessManager
+Interface implemented by the [class wrappers](./class-wrappers.md) encapsulating the the `IProcessor`s available to the underlying functions
+
+```js
+interface IProcessManager {
+  create: (processors?:IProcessor[]) => IProcessManager;
+  createFromGroup: (...) => Promise<ITemplate[]>;
+  createFromItemId: (...) => Promise<ITemplate[]>;
+  createFromItemIds: (...) => Promise<ITemplate[]>;
+  createFromItems: (...) => Promise<ITemplate[]>;
+  saveAsSolutionTemplate: (...) => Promise<ISolutionModel>;
+  deployFromTemplates: (...) => Promise<ITemplateOutput[]>;
+  deploySolution: (...) => Promise<ITemplateOutput[]>;
+  canUserDeployTemplates: (...) => Promise<IDeployable>;
+  addTemplate: (...) => Promise<ITemplate[]>;
+  cloneFromItemId: (...) => Promise<ITemplateOutput[]>;
+  cloneFromItem: (...) => Promise<ITemplateOutput[]>;
+  removeSolution: (...) => Promise<IProcessStatus>;
+}
+```
+
+
+
 ## ITemplate
 
 Base for `IItemTemplate` and `IGroupTemplate`
@@ -147,7 +170,9 @@ Generalized options hash for Conversion and Serializing into a Solution Item
 ```js
 interface IProcessOptions {
   authentication: IAuthenticationManager,
-  callback?: ProcessCallbackFunc
+  processors: IProcessor[],
+  callback?: ProcessCallbackFunc,
+  
 }
 ```
 
@@ -158,6 +183,9 @@ Extended options used during the deployment of templates
 interface IDeploymentOptions extends IProcessOptions {
   variables: object; // hash of properties for template interpolation
   params: object; // additional parameters, i.e. existing folderid
+  processors: IProcessor[]; // processors available
+  targetAuthentication: IAuthenticationManager;
+  sourceAuthentication?: IAuthenticationManager; // auth to access the source. Not needed if templates are passed in
 }
 ```
 

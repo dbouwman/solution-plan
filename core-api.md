@@ -6,9 +6,7 @@ The three main processes make up the "core" of the Solution.js system:
 - **Deployment**: create and connect a stack of new items, from an array of templates, optionally creating a Solution Item that has links to all the created items
 
 
-    
-
-# Conversion to Templates
+# Conversion Functions
 
 Key changes to this area of the codebase:
 - entire process should occur in-memory
@@ -24,7 +22,7 @@ The "Conversion" functions all return an array of `ITemplate` objects. This can 
 ## Group Dependencies
 
 **PROBLEM** Some items depend on a group. Sometimes the group must simply exist, in other cases, the content of the group should be included in the template.
-
+conv
 **CURRENTLY** As an item is templated, the id of any group that it depends on is returned in the `dependencies` array. When that array is processed, the system detects it is an Group, and creates a Template for it. By default the content of the group is *not* templated, rather the templating process itself is curated to ensure the correct items are included in the Solution.
 
 **PROPOSED**
@@ -36,7 +34,7 @@ If an item Processor determines a Group is required, it fetches the Group, retur
 ```js
 export convertFromGroup(
     groupId:string,
-    authentication: IAuthenticationManager
+    options: IProcessOptions
   ):Promise<ITemplate[]> {...}
 ```
 Fetches the content of the group and delegates to `convertFromItems`. *The group itself will not be included as a template.*
@@ -79,7 +77,7 @@ This orchestrates the conversion, by delegating to type-specific processors, and
 *Note*: Some type specific processors may return Groups that are required for the item. This is why we use `ITemplate` not `IItemTemplate`, although most templates will be for items. The core orchestrator code is responsible for storing the `IGroupTemplate`'s in the `data.groupTemplates` array.
 
 
-# Peristence to the Solution Template Item
+# Peristence Functions
 This is a new feature introduced into the system. Currently the Conversion process directly creates the Solution Template Item.
 
 Decoupling this step allow for more flexibility in how the library is used, including a platform-wide "Clone Item" feature.
@@ -96,7 +94,7 @@ export saveAsSolutionTemplate(
 
 **Reference** [IItemAdd](https://esri.github.io/arcgis-rest-js/api/types/IItemAdd/): Baseline information to create an item, in this case specific to creating the Solution item. We may change this to a more minimal interface.
 
-# Deployment of a Solution
+# Deployment Functions
 This is the process of converting from templates, back into fully operational items.
 
 Key changes to this area of the codebase:
