@@ -120,13 +120,22 @@ interface IItemTemplate extends ITemplate {
   item: object; // basically an IItem w/o it's Id, and with {{variables}} injected
   data: object ;// the /data of the item
   properties: object; // other type-specific information, could be form, layer schema etc
-  dependencies: string[]; // array of item id's that must be deployed before this item
+  dependencies: IDependency[]; // array of item id's that must be deployed before this item
   relatedItems: IRelatedItems[]; // relationship information so we can re-connect during deployment
   relativeCost: number; 
 }
 ```
 
 **Note** `relativeCost` denotes the deployment cost relative to creating a Web Map. i.e. creating a feature service may be 10, but a Hub Page may be a 2. Templates that simply involve creating an item and uploading a thumbnail should have the default value of 1.
+
+## IDependency
+
+```js
+interface IDependency {
+  id: string; //item id
+  params?: object; // optional params that will be sent to the Processor for this item
+}
+```
 
 ## ISolutionResource
 This is different from `IItemResourceResponse` in REST-JS, specifically because we need additional information.

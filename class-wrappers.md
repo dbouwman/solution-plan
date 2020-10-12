@@ -1,6 +1,6 @@
 # Class Wrappers
 
-While the core of the Solution system is written in a functional style, in order to make using the library as simple as possible, we will also provide some class wrappers over the functions. Consumers of Solution.js are free to access the underlying functions, or lean on the following classes.
+While the core of the Solution system is written in a functional style, ito simplify use of the library, we will also provide some class wrappers over the functions. Consumers of Solution.js are free to access the underlying functions, or lean on the following classes.
 
 ![Class Wrappers](./images/class-wrappers.png)
 

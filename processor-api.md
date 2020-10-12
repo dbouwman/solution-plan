@@ -39,7 +39,8 @@ If the item being templated requires a Group, an `IGroupTemplate` should also be
 ```js
 public static convertToTemplate(
     item: IItem,
-    authentication: IAuthenticationManager
+    authentication: IAuthenticationManager,
+    params?: object, // optional params from IDependency 
   ):Promise<ITemplate[]> {...}
 ```
 
