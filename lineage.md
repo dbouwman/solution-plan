@@ -4,12 +4,12 @@ Solution Lineage is the concept of being able to trace from instances of Solutio
 
 Goals:
 - track a deployed item back to:
-  - the Solution Instance it is related to (`solutionId`)
-  - the Solution Template it was deployed from (`solutionTemplateId`)
+  - the Solution Template Instance it is related to (`solutionId`)
+  - the Deployed Solution it was created by (`deployedSolutionId`)
   - the original item it was templated from (`sourceId`)
 
 - track a Solution Instance back to
-  - the Solution Template it was created from (`solutionTemplateId`)
+  - the Solution Template it was created from (`solutionId`)
 
 Creating the lineage requires simply holding various id's in properties of the various items, as shown in the following diagram
 
@@ -37,8 +37,8 @@ Stored in `item.properties` and thus not searchable, but we can traverse the ids
 {
   ...
   properties: {
-    solutionId: '3ef', // Solution Instance
-    solutionTemplateId: 'bc7', // Solution Template
+    solutionId: '3ef', // Solution Template
+    deployedSolutionId: 'bc7', // Solution Instance
     sourceItemId: '87c', // original item id
   }
   ...
@@ -46,17 +46,20 @@ Stored in `item.properties` and thus not searchable, but we can traverse the ids
 ```
 
 ### Searchable Lineage
-These same properties are converted into `typeKeywords`, and used for searching:
+Existing solutions already employ similar typekeywords for similar purposes:
 
 ```js
 {
   ...
   typeKeywords: [
-    "solutionid|3ef",
-    "solutionTemplateId|bc7",
-    "sourceItemId|87c"
+    "solutionid-3ef",
+    "deployedSolutionId-bc7",
+    "deployedSolutionId-dd3", // multiples are valid
+    "sourceid-87c"
   ],
   ...
 }
 ```
+
+Associations with multiple deployed solutions are possible. This happens when a Solution Template is deployed multiple times, and the user opts to use some existing items - typically services or maps.
 
